@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <base href="/">
+
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="description" content="Sherinas S - A Flutter Portfolio."> 
+
+  <!-- iOS meta tags & icons -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="Sherinas S"> 
+  <link rel="apple-touch-icon" href="assets/icons/Appicon.png"> 
+  <link rel="icon" type="image/png" href="assets/icons/Appicon.png"/>
+
+  <title>Sherinas S</title>
+  <link rel="manifest" href="manifest.json">
+
+  <!-- Include Lottie Web library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.9.6/lottie.min.js"></script>
+
+  <style>
+    /* Styles for the loader */
+    #loader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: white; /* Background color during loading */
+      z-index: 9999; /* Ensure it covers the entire screen */
+    }
+
+    /* Loader container dimensions */
+    #loader-container {
+      width: 200px; /* Adjust width of loader */
+      height: 200px; /* Adjust height of loader */
+    }
+  </style>
+</head>
+<body>
+  <!-- Loader element -->
+  <div id="loader">
+    <div id="loader-container"></div>
+  </div>
+
+  <script>
+    // Load the Lottie animation
+    var animation = lottie.loadAnimation({
+      container: document.getElementById('loader-container'), // ID of the container
+      renderer: 'svg',
+      loop: true,
+      autoplay: true,
+      path: 'assets/icons/Loading animation.json' // Updated path to the loading animation
+    });
+
+    // Log when the animation loads successfully
+    animation.addEventListener('DOMLoaded', function() {
+      console.log("Lottie animation loaded successfully");
+    });
+
+    // Hide loader if there's an error loading the animation
+    animation.addEventListener('error', function() {
+      console.error("Error loading Lottie animation. Please check the path and file.");
+      const loader = document.getElementById('loader');
+      loader.style.display = 'none'; // Hide the loader if there's an error
+    });
+
+    // Load the Flutter application
+    window.addEventListener('load', function () {
+      var loading = document.querySelector('#loader');
+      _flutter.loader.loadEntrypoint({
+        serviceWorker: {
+          serviceWorkerVersion:'"437213256"'
+        }
+      }).then(function (engineInitializer) {
+        return engineInitializer.initializeEngine();
+      }).then(function (appRunner) {
+        return appRunner.runApp();
+      }).then(function () {
+        // Wait a few milliseconds so users can see the loading animation
+        window.setTimeout(function () {
+          loading.remove(); // Remove loader
+        }, 200);
+      }).catch(function (error) {
+        console.error("Error during Flutter app initialization:", error);
+        loading.remove(); // Ensure loader is removed even if there's an error
+      });
+    });
+  </script>
+
+  <script src="flutter_bootstrap.js" async></script>
+</body>
+</html>
