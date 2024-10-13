@@ -49,13 +49,13 @@
   </div>
 
   <script>
-    // Load the Lottie animation
+    // Load the Lottie animation for the loader
     var animation = lottie.loadAnimation({
       container: document.getElementById('loader-container'), // ID of the container
       renderer: 'svg',
       loop: true,
       autoplay: true,
-      path: 'assets/icons/Loading animation.json' // Updated path to the loading animation
+      path: 'assets/icons/Loading animation.json' // Correct path to the loading animation
     });
 
     // Log when the animation loads successfully
@@ -73,16 +73,18 @@
     // Load the Flutter application
     window.addEventListener('load', function () {
       var loading = document.querySelector('#loader');
+
+      // Flutter's new loading mechanism
       _flutter.loader.loadEntrypoint({
         serviceWorker: {
-          serviceWorkerVersion:'"2630139095"'
+          serviceWorkerVersion: null // Ensure this is set correctly for your app
         }
       }).then(function (engineInitializer) {
         return engineInitializer.initializeEngine();
       }).then(function (appRunner) {
         return appRunner.runApp();
       }).then(function () {
-        // Wait a few milliseconds so users can see the loading animation
+        // Delay removing the loader for user experience
         window.setTimeout(function () {
           loading.remove(); // Remove loader
         }, 200);
